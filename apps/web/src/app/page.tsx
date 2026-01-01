@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ConnectButton } from "../components/ConnectButton";
 
 export default function Home() {
   return (
@@ -27,14 +28,12 @@ export default function Home() {
                 Dashboard
               </Link>
               <Link
-                href="/mint"
+                href="/pledge"
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 Mint
               </Link>
-              <button className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity">
-                Connect Wallet
-              </button>
+              <ConnectButton />
             </div>
           </nav>
 
@@ -60,12 +59,16 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-4 rounded-lg bg-primary text-primary-foreground font-semibold text-lg hover:opacity-90 transition-opacity glow-cyan">
-                Start Tokenizing
-              </button>
-              <button className="px-8 py-4 rounded-lg border border-border text-foreground font-semibold text-lg hover:bg-card transition-colors">
-                View Documentation
-              </button>
+              <Link href="/dashboard">
+                <button className="px-8 py-4 rounded-lg bg-primary text-primary-foreground font-semibold text-lg hover:opacity-90 transition-opacity glow-cyan">
+                  Start Tokenizing
+                </button>
+              </Link>
+              <Link href="https://docs.mantle.xyz" target="_blank">
+                <button className="px-8 py-4 rounded-lg border border-border text-foreground font-semibold text-lg hover:bg-card transition-colors">
+                  View Documentation
+                </button>
+              </Link>
             </div>
           </div>
 

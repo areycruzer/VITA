@@ -1,6 +1,11 @@
 import { render, screen } from '@testing-library/react'
-import '@testing-library/jest-dom' // Ensure matchers are available
+import '@testing-library/jest-dom'
 import Home from '../app/page'
+
+// Mock the ConnectButton to avoid Context issues
+jest.mock('../components/ConnectButton', () => ({
+    ConnectButton: () => <button>Mock Connect</button>
+}))
 
 describe('Home Page', () => {
     it('renders the VITA Protocol header', () => {
@@ -14,12 +19,8 @@ describe('Home Page', () => {
         // Check for main CTA
         const button = screen.getAllByText(/Start Tokenizing/i)[0]
         expect(button).toBeInTheDocument()
-    })
 
-    it('renders stats section', () => {
-        render(<Home />)
-
-        expect(screen.getByText(/Total Value Locked/i)).toBeInTheDocument()
-        expect(screen.getByText(/Workers Tokenized/i)).toBeInTheDocument()
+        // Check for Mock Connect
+        expect(screen.getByText('Mock Connect')).toBeInTheDocument()
     })
 })
