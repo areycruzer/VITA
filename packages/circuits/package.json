@@ -1,0 +1,27 @@
+{
+  "name": "@vita/circuits",
+  "version": "0.1.0",
+  "description": "ZK-SNARK circuits for VITA Protocol - Proof of Work verification",
+  "private": true,
+  "scripts": {
+    "compile": "circom circuits/proof_of_work.circom --r1cs --wasm --sym -o build",
+    "setup": "snarkjs groth16 setup build/proof_of_work.r1cs pot16_final.ptau build/proof_of_work.zkey",
+    "export-verifier": "snarkjs zkey export solidityverifier build/proof_of_work.zkey ../contracts/contracts/verifiers/Groth16Verifier.sol",
+    "generate-witness": "node build/proof_of_work_js/generate_witness.js build/proof_of_work_js/proof_of_work.wasm input.json witness.wtns",
+    "prove": "snarkjs groth16 prove build/proof_of_work.zkey witness.wtns proof.json public.json",
+    "verify": "snarkjs groth16 verify verification_key.json public.json proof.json",
+    "export-vkey": "snarkjs zkey export verificationkey build/proof_of_work.zkey verification_key.json",
+    "full-setup": "pnpm compile && pnpm setup && pnpm export-vkey && pnpm export-verifier",
+    "test": "mocha test/**/*.js --timeout 60000"
+  },
+  "devDependencies": {
+    "chai": "^4.3.10",
+    "circomlib": "^2.0.5",
+    "ffjavascript": "^0.3.0",
+    "mocha": "^10.2.0",
+    "snarkjs": "^0.7.4"
+  },
+  "dependencies": {
+    "circomlibjs": "^0.1.7"
+  }
+}

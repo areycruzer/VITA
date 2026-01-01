@@ -1,0 +1,35 @@
+{
+  "name": "vita-protocol",
+  "version": "0.1.0",
+  "private": true,
+  "description": "VITA - Valorized Intangible Token Assets: The Human Capital Stock Exchange on Mantle",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vita-protocol/vita"
+  },
+  "license": "MIT",
+  "author": "VITA Protocol Team",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "pnpm --filter @vita/web dev",
+    "build": "pnpm --filter @vita/web build",
+    "start": "pnpm --filter @vita/web start",
+    "lint": "pnpm -r lint",
+    "contracts:compile": "pnpm --filter @vita/contracts compile",
+    "contracts:test": "pnpm --filter @vita/contracts test",
+    "contracts:deploy:testnet": "pnpm --filter @vita/contracts deploy:testnet",
+    "contracts:verify": "pnpm --filter @vita/contracts verify",
+    "clean": "pnpm -r clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.0"
+}

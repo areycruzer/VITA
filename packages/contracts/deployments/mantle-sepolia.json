@@ -1,0 +1,16 @@
+{
+  "network": "mantleTestnet",
+  "chainId": "5003",
+  "deployer": "0x6E9402C03Bd5F9D2332cF23E0F17cf7e3aa11A98",
+  "timestamp": "2026-01-01T18:30:00.000Z",
+  "contracts": {
+    "valuationEngine": "0xa7BC6695258f5fC5E07c5561bE2c65342AC7b745",
+    "vitaToken": "0x4d0F0e709b1c81853f3a99925B00cFe085044c79",
+    "groth16Verifier": "0x47371C3244D60C89D6e5Ab49E972cA07D427Dc37",
+    "workProofRegistry": "0x008aceeD352DC93DB3B15E4466f8Ad71316D0dCd",
+    "mockMETH": "0x9A02E56cE3D8858ff72bfbDb83085AE5CfAE7031",
+    "methStaking": "0xcC06e475e8863129fEaC7eFecE9851B4a489738e",
+    "vitaTokenV2": "0x36987d58D3ba97462c241B52598aacd7B8C77228"
+  },
+  "explorer": "https://sepolia.mantlescan.xyz"
+}

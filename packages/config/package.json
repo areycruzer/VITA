@@ -1,0 +1,20 @@
+{
+  "name": "@vita/config",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./vita.config.ts",
+  "types": "./vita.config.ts",
+  "exports": {
+    ".": {
+      "import": "./vita.config.ts",
+      "require": "./vita.config.ts",
+      "types": "./vita.config.ts"
+    }
+  },
+  "files": [
+    "*.ts"
+  ],
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

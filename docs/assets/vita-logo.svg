@@ -1,0 +1,44 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="vitaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="50%" style="stop-color:#8b5cf6"/>
+      <stop offset="100%" style="stop-color:#06b6d4"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="url(#vitaGradient)" opacity="0.1"/>
+  <circle cx="100" cy="100" r="95" fill="none" stroke="url(#vitaGradient)" stroke-width="2"/>
+  
+  <!-- V shape (stylized) -->
+  <path d="M60 50 L100 130 L140 50" 
+        stroke="url(#vitaGradient)" 
+        stroke-width="8" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        fill="none"
+        filter="url(#glow)"/>
+  
+  <!-- Pulse lines (productivity waves) -->
+  <path d="M40 100 L60 100 L70 80 L80 120 L90 90 L100 110 L110 85 L120 105 L130 100 L160 100" 
+        stroke="url(#vitaGradient)" 
+        stroke-width="3" 
+        stroke-linecap="round" 
+        fill="none"
+        opacity="0.8"/>
+  
+  <!-- Bottom dot (token) -->
+  <circle cx="100" cy="155" r="10" fill="url(#vitaGradient)" filter="url(#glow)"/>
+  
+  <!-- Small accent circles -->
+  <circle cx="60" cy="50" r="4" fill="url(#vitaGradient)" opacity="0.6"/>
+  <circle cx="140" cy="50" r="4" fill="url(#vitaGradient)" opacity="0.6"/>
+</svg>
