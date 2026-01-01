@@ -2,7 +2,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ValuationChart } from "@/components/dashboard/ValuationChart";
 import { PledgeTable } from "@/components/dashboard/PledgeTable";
 import { PledgeModal } from "@/components/dashboard/PledgeModal";
-import { Activity, TrendingUp, Users } from "lucide-react";
+import { Activity, TrendingUp, Users, Info } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function DashboardPage() {
   return (
@@ -53,9 +59,21 @@ export default function DashboardPage() {
         {/* Reliability Score */}
         <Card className="bg-card/50 backdrop-blur border-border shadow-lg">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Reliability Score
-            </CardTitle>
+            <div className="flex items-center gap-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Reliability Score
+              </CardTitle>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Info className="h-3 w-3 text-muted-foreground hover:text-foreground" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="w-[200px] text-xs">A metric based on code review data, commit consistency, and peer verification on-chain.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
             <Users className="h-4 w-4 text-purple-500" />
           </CardHeader>
           <CardContent>
