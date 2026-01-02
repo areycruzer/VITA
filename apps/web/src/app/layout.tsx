@@ -3,6 +3,7 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import { Providers } from "./providers";
+import { StarField } from "@/components/ui/star-field";
 
 export const metadata: Metadata = {
   title: "VITA Protocol | Human Capital Stock Exchange",
@@ -32,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${GeistSans.variable} ${GeistMono.variable} font-sans bg-background text-foreground antialiased`}>
+        <StarField />
         <Providers>{children}</Providers>
       </body>
     </html>
