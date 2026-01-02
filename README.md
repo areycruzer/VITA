@@ -321,28 +321,6 @@ pnpm test test/VitaTokenV2.test.ts
 
 ---
 
-## 🛣️ Roadmap
-
-### Phase 1: Foundation ✅
-- [x] ERC-3643 compliant token
-- [x] AI valuation oracle
-- [x] ZK privacy layer
-- [x] mETH staking integration
-- [x] Mantle testnet deployment
-
-### Phase 2: Growth 🔄
-- [ ] Multi-platform integration (GitLab, Linear, Jira)
-- [ ] Secondary market DEX
-- [ ] Governance token ($VITA-GOV)
-- [ ] Mobile app
-
-### Phase 3: Scale 📈
-- [ ] Institutional partnerships
-- [ ] Cross-chain bridges
-- [ ] Enterprise SaaS offering
-- [ ] Mainnet launch
-
----
 
 ## 🤝 Contributing
 
