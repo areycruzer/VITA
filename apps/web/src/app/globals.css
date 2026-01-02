@@ -4,52 +4,90 @@
 
 @layer base {
   :root {
-    /* Deep Charcoal Background #0f172a */
-    --background: 222 47% 11%;
-    /* White Foreground */
-    --foreground: 210 40% 98%;
+    /* Foundation: Deep Space */
+    --background: 0 0% 0.8%;
+    /* #020202 True Black */
+    --foreground: 0 0% 98%;
 
-    /* Slightly Lighter Charcoal for Cards #1e293b with more transparency for glass effect */
-    --card: 215 25% 17%;
-    --card-foreground: 210 40% 98%;
+    /* Bento Card: #0A0A0A */
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 215 25% 17%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
 
-    /* Electric Blue Primary #3b82f6 */
-    --primary: 217 91% 60%;
-    --primary-foreground: 222 47% 11%;
+    /* Interaction Colors */
+    --primary: 211 100% 50%;
+    /* #007AFF Cyber Blue */
+    --primary-foreground: 210 40% 98%;
 
-    /* Deep Slate Secondary */
-    --secondary: 217 33% 20%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 0 0% 9%;
+    /* #171717 */
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 217 33% 20%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 0 0% 9%;
+    --muted-foreground: 0 0% 63.9%;
 
-    --accent: 217 91% 60%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 0 0% 9%;
+    --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 62% 50%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
 
-    /* Subtle Borders */
-    --border: 215 28% 25%;
-    --input: 215 28% 25%;
-    --ring: 217 91% 60%;
+    /* Mantle Teal Success */
+    --success: 178 54% 61%;
+    /* #65D3D1 */
+    --success-foreground: 0 0% 9%;
 
-    --radius: 0.5rem;
+    /* Borders: Subtle 1px lines */
+    --border: 0 0% 12%;
+    --input: 0 0% 12%;
+    --ring: 211 100% 50%;
+    /* Match primary */
+
+    --radius: 0.75rem;
+    /* 12px for Bento feel */
   }
 }
 
 @layer utilities {
-  .bg-grid {
-    background-size: 40px 40px;
-    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+
+  /* Liquid Glass: 20px Blur + 1px white/8 border */
+  .glass-liquid {
+    @apply bg-background/60 backdrop-blur-[20px] border border-white/[0.08];
+  }
+
+  /* Scanline Animation */
+  .scanline {
+    width: 100%;
+    height: 100px;
+    z-index: 10;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 122, 255, 0.5) 50%, rgba(0, 0, 0, 0) 100%);
+    opacity: 0.1;
+    position: absolute;
+    bottom: 100%;
+    animation: scanline 4s linear infinite;
+  }
+
+  @keyframes scanline {
+    0% {
+      bottom: 100%;
+    }
+
+    100% {
+      bottom: -100px;
+    }
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
-
 
 @layer base {
   * {
@@ -60,49 +98,4 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: hsl(var(--background));
-}
-
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted));
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground));
-}
-
-/* Gradient text for VITA branding */
-.gradient-text {
-  @apply bg-gradient-to-r from-mantle-cyan via-mantle-purple to-mantle-cyan bg-clip-text text-transparent;
-  background-size: 200% auto;
-  animation: gradient 3s linear infinite;
-}
-
-@keyframes gradient {
-  0% {
-    background-position: 0% center;
-  }
-
-  100% {
-    background-position: 200% center;
-  }
-}
-
-/* Glow effects */
-.glow-cyan {
-  box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
-}
-
-.glow-purple {
-  box-shadow: 0 0 20px rgba(123, 97, 255, 0.3);
 }

@@ -57,7 +57,7 @@ export default function Home() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link href="/dashboard">
-                <button className="px-8 py-4 rounded-xl bg-primary text-primary-foreground font-bold text-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 hover:shadow-primary/40 flex items-center gap-2">
+                <button className="px-8 py-4 rounded-xl bg-primary text-primary-foreground font-bold text-lg hover:bg-primary/90 transition-all shadow-lg flex items-center gap-2">
                   Launch App <ArrowRight className="w-5 h-5" />
                 </button>
               </Link>
@@ -72,7 +72,7 @@ export default function Home() {
       </div>
 
       {/* Stats Ticker (Simulated) */}
-      <div className="border-y border-border/50 bg-card/30 backdrop-blur-sm">
+      <div className="border-y border-border/50 glass-matte">
         <div className="container mx-auto px-6 py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
@@ -107,7 +107,7 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="group p-8 rounded-2xl bg-card border border-border hover:border-primary/50 transition-all hover:shadow-2xl hover:shadow-primary/10">
+          <div className="group p-8 rounded-2xl glass-matte hover:border-primary/50 transition-all hover:shadow-2xl hover:shadow-primary/10">
             <div className="w-14 h-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
               <LinkIcon className="w-7 h-7" />
             </div>
@@ -117,7 +117,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="group p-8 rounded-2xl bg-card border border-border hover:border-purple-500/50 transition-all hover:shadow-2xl hover:shadow-purple-500/10">
+          <div className="group p-8 rounded-2xl glass-matte hover:border-purple-500/50 transition-all hover:shadow-2xl hover:shadow-purple-500/10">
             <div className="w-14 h-14 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
               <ShieldCheck className="w-7 h-7" />
             </div>
@@ -127,7 +127,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="group p-8 rounded-2xl bg-card border border-border hover:border-green-500/50 transition-all hover:shadow-2xl hover:shadow-green-500/10">
+          <div className="group p-8 rounded-2xl glass-matte hover:border-green-500/50 transition-all hover:shadow-2xl hover:shadow-green-500/10">
             <div className="w-14 h-14 rounded-xl bg-green-500/10 text-green-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
               <TrendingUp className="w-7 h-7" />
             </div>
@@ -140,7 +140,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border bg-card/30 backdrop-blur-lg">
+      <footer className="border-t border-border glass-matte">
         <div className="container mx-auto px-6 py-12">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center gap-2 mb-4 md:mb-0">

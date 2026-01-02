@@ -23,7 +23,7 @@ export function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <div className="hidden border-r border-border bg-card/50 lg:block lg:w-72 lg:fixed lg:inset-y-0 lg:top-16 lg:bottom-0 overflow-y-auto">
+        <div className="hidden border-r border-border glass-matte lg:block lg:w-72 lg:fixed lg:inset-y-0 lg:top-16 lg:bottom-0 overflow-y-auto">
             <div className="flex flex-col gap-2 p-6">
                 <div className="mb-4 px-2">
                     <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Protocol</h2>
@@ -40,7 +40,7 @@ export function Sidebar() {
                                     "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
                                     item.disabled && "opacity-50 cursor-not-allowed",
                                     isActive
-                                        ? "bg-primary/10 text-primary glow-cyan border border-primary/20"
+                                        ? "bg-primary/10 text-primary border border-primary/20"
                                         : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                                 )}
                             >
