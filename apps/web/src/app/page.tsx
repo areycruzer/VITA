@@ -5,29 +5,21 @@ import { ArrowUpRight, Github, Sparkles, Activity, Shield, Layers, ChevronRight 
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#030303] text-white overflow-x-hidden">
-      {/* Noise texture overlay */}
-      <div className="fixed inset-0 pointer-events-none opacity-[0.015] z-50"
-        style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }} />
-
-      {/* Gradient orbs */}
-      <div className="fixed top-0 right-0 w-[600px] h-[600px] rounded-full bg-gradient-to-bl from-cyan-500/20 via-blue-600/10 to-transparent blur-[120px] pointer-events-none" />
-      <div className="fixed bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-violet-600/15 via-purple-500/10 to-transparent blur-[100px] pointer-events-none" />
-
+    <main className="min-h-screen bg-transparent text-white overflow-x-hidden">
       {/* Header */}
       <header className="relative z-40 border-b border-white/[0.06]">
         <div className="max-w-7xl mx-auto px-8 py-6">
           <nav className="flex items-center justify-between">
             <div className="flex items-center gap-12">
-              <Link href="/" className="flex items-center gap-3 group">
-                <Logo className="w-9 h-9" />
-                <span className="text-xl font-semibold tracking-tight">VITA</span>
+              <Link href="/" className="flex items-center gap-2">
+                <Logo className="w-8 h-8" />
+                <span className="text-xl font-bold tracking-tight">VITA</span>
               </Link>
-              <div className="hidden md:flex items-center gap-8 text-sm text-white/60">
-                <Link href="/dashboard" className="hover:text-white transition-colors">Dashboard</Link>
-                <Link href="/pledge" className="hover:text-white transition-colors">Mint</Link>
-                <Link href="#" className="hover:text-white transition-colors">Docs</Link>
-                <Link href="#" className="hover:text-white transition-colors">Governance</Link>
+              <div className="hidden md:flex items-center gap-8">
+                <Link href="/dashboard" className="text-sm font-medium text-white/60 hover:text-white transition-colors">Dashboard</Link>
+                <Link href="/pledge" className="text-sm font-medium text-white/60 hover:text-white transition-colors">Mint</Link>
+                <Link href="/docs" className="text-sm font-medium text-white/60 hover:text-white transition-colors">Docs</Link>
+                <Link href="/governance" className="text-sm font-medium text-white/60 hover:text-white transition-colors">Governance</Link>
               </div>
             </div>
             <div className="flex items-center gap-4">

@@ -15,8 +15,8 @@ import {
 const navigation = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "Pledge Vitality", href: "/pledge", icon: Zap },
-    { name: "My Echoes", href: "/echoes", icon: Layers, disabled: true },
-    { name: "Governance", href: "/governance", icon: Scale, disabled: true },
+    { name: "My Echoes", href: "/echoes", icon: Layers },
+    { name: "Governance", href: "/governance", icon: Scale },
 ];
 
 export function Sidebar() {
@@ -35,10 +35,9 @@ export function Sidebar() {
                         return (
                             <Link
                                 key={item.name}
-                                href={item.disabled ? "#" : item.href}
+                                href={item.href}
                                 className={cn(
                                     "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
-                                    item.disabled && "opacity-50 cursor-not-allowed",
                                     isActive
                                         ? "bg-primary/10 text-primary border border-primary/20"
                                         : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -46,9 +45,6 @@ export function Sidebar() {
                             >
                                 <item.icon className={cn("h-4 w-4", isActive ? "text-primary" : "text-muted-foreground")} />
                                 {item.name}
-                                {item.disabled && (
-                                    <span className="ml-auto text-[10px] font-semibold bg-muted text-muted-foreground px-1.5 py-0.5 rounded">SOON</span>
-                                )}
                             </Link>
                         );
                     })}
@@ -58,7 +54,7 @@ export function Sidebar() {
                     <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Resources</h2>
                 </div>
                 <nav className="space-y-1">
-                    <Link href="https://docs.mantle.xyz" target="_blank" className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground">
+                    <Link href="/docs" className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground">
                         <BookOpen className="h-4 w-4" />
                         Documentation
                     </Link>

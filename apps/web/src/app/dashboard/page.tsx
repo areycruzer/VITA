@@ -50,10 +50,10 @@ export default function DashboardPage() {
       <MarketMetrics />
 
       {/* Bento Grid Layout - 3 Columns */}
-      <BentoGrid className="grid-cols-1 md:grid-cols-3 gap-6">
+      <BentoGrid className="grid-cols-1 md:grid-cols-3 gap-4">
 
         {/* 1. Main Balance Card (Large, Col 1-2, Row 1) */}
-        <BentoCard className="md:col-span-2 glass-liquid p-8 flex flex-col justify-between min-h-[340px] relative overflow-hidden group">
+        <BentoCard className="md:col-span-2 glass-liquid p-8 flex flex-col justify-between min-h-[350px] relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-32 bg-primary/20 blur-[100px] rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none" />
 
           <div className="space-y-2 relative z-10">
@@ -77,7 +77,7 @@ export default function DashboardPage() {
 
             <div className="pt-8">
               <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-widest mb-2">Total Vitality</h2>
-              <div className="text-7xl md:text-8xl font-light tracking-tighter text-white bg-clip-text text-transparent bg-gradient-to-br from-white via-white to-white/50">
+              <div className="text-6xl md:text-7xl font-light tracking-tighter text-white bg-clip-text text-transparent bg-gradient-to-br from-white via-white to-white/50">
                 {balance ? Math.floor(balance).toLocaleString() : "0"}
                 <span className="text-2xl text-muted-foreground/50 ml-4 font-normal">VITA</span>
               </div>
@@ -90,7 +90,7 @@ export default function DashboardPage() {
         </BentoCard>
 
         {/* 2. Worker Profile Stats (Col 3, Row 1) */}
-        <div className="flex flex-col gap-6 h-full">
+        <div className="flex flex-col gap-4 h-full">
           <BentoCard className="glass-liquid p-6 flex flex-col justify-between flex-1 relative overflow-hidden">
             <div className="absolute bottom-0 right-0 p-16 bg-purple-500/10 blur-[60px] rounded-full translate-y-1/3 translate-x-1/3 pointer-events-none" />
             <div className="p-2 w-fit rounded-lg bg-purple-500/10 text-purple-400 mb-4 border border-purple-500/20">
