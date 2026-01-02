@@ -10,7 +10,7 @@ import { VITA_TOKEN_V2_ABI, VALUATION_ENGINE_ABI, METH_STAKING_ABI } from "./abi
  */
 export function useVitaBalance() {
   const { address } = useAccount();
-  
+
   const { data, isLoading, refetch } = useReadContract({
     address: CONTRACTS.VITA_TOKEN_V2 as `0x${string}`,
     abi: VITA_TOKEN_V2_ABI,
@@ -34,7 +34,7 @@ export function useVitaBalance() {
  */
 export function useWorkerProfile() {
   const { address } = useAccount();
-  
+
   const { data, isLoading, refetch } = useReadContract({
     address: CONTRACTS.VITA_TOKEN_V2 as `0x${string}`,
     abi: VITA_TOKEN_V2_ABI,
@@ -46,7 +46,7 @@ export function useWorkerProfile() {
   });
 
   const profile = data as [bigint, bigint, number, bigint] | undefined;
-  
+
   return {
     totalMinted: profile ? formatEther(profile[0]) : "0",
     lastMintTimestamp: profile ? Number(profile[1]) : 0,
@@ -62,7 +62,7 @@ export function useWorkerProfile() {
  */
 export function usePendingYield() {
   const { address } = useAccount();
-  
+
   const { data, isLoading, refetch } = useReadContract({
     address: CONTRACTS.VITA_TOKEN_V2 as `0x${string}`,
     abi: VITA_TOKEN_V2_ABI,
@@ -86,7 +86,7 @@ export function usePendingYield() {
  */
 export function useStakingDetails() {
   const { address } = useAccount();
-  
+
   const { data, isLoading, refetch } = useReadContract({
     address: CONTRACTS.METH_STAKING as `0x${string}`,
     abi: METH_STAKING_ABI,
@@ -98,7 +98,7 @@ export function useStakingDetails() {
   });
 
   const stakeData = data as [bigint, bigint] | undefined;
-  
+
   return {
     currentEthValue: stakeData ? formatEther(stakeData[0]) : "0",
     yieldAccrued: stakeData ? formatEther(stakeData[1]) : "0",
@@ -120,14 +120,14 @@ export function useValuation(
     address: CONTRACTS.VALUATION_ENGINE as `0x${string}`,
     abi: VALUATION_ENGINE_ABI,
     functionName: "getDetailedValuation",
-    args: [skillCategory, BigInt(pledgedHours), BigInt(vitalityScore), BigInt(fulfillmentDays)],
+    args: [skillCategory, BigInt(Math.floor(pledgedHours)), BigInt(Math.floor(vitalityScore)), BigInt(Math.floor(fulfillmentDays))],
     query: {
       enabled: pledgedHours > 0 && vitalityScore > 0,
     },
   });
 
   const valuation = data as [bigint, bigint, bigint, bigint] | undefined;
-  
+
   return {
     baseValue: valuation ? formatEther(valuation[0]) : "0",
     aiAdjustedValue: valuation ? formatEther(valuation[1]) : "0",
@@ -143,7 +143,7 @@ export function useValuation(
  */
 export function useMintEcho() {
   const { writeContract, data: hash, isPending, error } = useWriteContract();
-  
+
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
     hash,
   });
@@ -168,11 +168,11 @@ export function useMintEcho() {
       args: [
         params.worker,
         params.skillCategory,
-        BigInt(params.pledgedHours),
-        BigInt(params.vitalityScore),
-        BigInt(params.reliabilityScore),
+        BigInt(Math.floor(params.pledgedHours)),
+        BigInt(Math.floor(params.vitalityScore)),
+        BigInt(Math.floor(params.reliabilityScore)),
         params.mintAmount,
-        BigInt(params.deadline),
+        BigInt(Math.floor(params.deadline)),
         params.v,
         params.r,
         params.s,
@@ -196,7 +196,7 @@ export function useMintEcho() {
  */
 export function useClaimYield() {
   const { writeContract, data: hash, isPending, error } = useWriteContract();
-  
+
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
     hash,
   });
@@ -224,7 +224,7 @@ export function useClaimYield() {
  */
 export function useWorkerNonce() {
   const { address } = useAccount();
-  
+
   const { data, isLoading, refetch } = useReadContract({
     address: CONTRACTS.VITA_TOKEN_V2 as `0x${string}`,
     abi: VITA_TOKEN_V2_ABI,
