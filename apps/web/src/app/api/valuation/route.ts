@@ -36,7 +36,13 @@ export async function POST(req: Request) {
         const reliabilityScore = Math.floor(Math.random() * (100 - 90) + 90); // 90-100
         const pledgedHours = 160; // Hardcoded for demo
         const hourlyRate = 150; // Hardcoded for demo
-        const tokenValue = BigInt(pledgedHours * hourlyRate) * BigInt(1e18); // 18 decimals
+
+        // VITA Formula Implementation: V = (H * R) * S_AI
+        // Normalizing Score (0-1000) to percentage (0.0-1.0)
+        // t=0 at mint, so decay factor is 1
+        const baseValuation = BigInt(pledgedHours * hourlyRate);
+        const scoreMultiplier = BigInt(vitalityScore);
+        const tokenValue = (baseValuation * scoreMultiplier * BigInt(1e18)) / BigInt(1000); // Apply score and decimals
 
         // Skill Category: 0=SOLIDITY
         const skillCategory = 0;
