@@ -348,7 +348,7 @@ export default function PledgePage() {
                 }`}
             >
               <Wallet className="w-4 h-4" />
-              {isConnected ? "0x7c2...4E3f" : "Not Connected"}
+              {isConnected && address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "Not Connected"}
             </div>
           </div>
         </div>

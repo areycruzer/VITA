@@ -35,6 +35,11 @@ export function RecentActivity() {
             }
 
             try {
+                // Get current block number and calculate a reasonable range
+                // Mantle Sepolia RPC limits to 10,000 blocks per query
+                const currentBlock = await publicClient.getBlockNumber();
+                const fromBlock = currentBlock > 10000n ? currentBlock - 10000n : 0n;
+
                 // Fetch Transfer events where user is recipient (minting)
                 const logs = await publicClient.getLogs({
                     address: CONTRACTS.VITA_TOKEN_V2 as `0x${string}`,
@@ -42,7 +47,7 @@ export function RecentActivity() {
                     args: {
                         to: address,
                     },
-                    fromBlock: "earliest",
+                    fromBlock: fromBlock,
                     toBlock: "latest",
                 });
 
