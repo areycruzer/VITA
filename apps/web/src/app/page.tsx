@@ -76,7 +76,7 @@ export default function Home() {
                     <ArrowUpRight className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </button>
                 </Link>
-                <Link href="https://github.com/areycruzer/VITA-Protocol" target="_blank">
+                <Link href="https://github.com/areycruzer/VITA" target="_blank">
                   <button className="flex items-center gap-3 px-7 py-4 rounded-xl border border-white/10 text-white/70 font-semibold hover:bg-white/[0.03] hover:text-white transition-all">
                     <Github className="w-5 h-5" />
                     View Source
@@ -245,7 +245,7 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-6 text-sm text-white/40">
               <Link href="#" className="hover:text-white transition-colors">Docs</Link>
-              <Link href="https://github.com/areycruzer/VITA-Protocol" className="hover:text-white transition-colors">GitHub</Link>
+              <Link href="https://github.com/areycruzer/VITA" className="hover:text-white transition-colors">GitHub</Link>
               <Link href="#" className="hover:text-white transition-colors">Twitter</Link>
               <Link href="#" className="hover:text-white transition-colors">Discord</Link>
             </div>
