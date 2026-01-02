@@ -289,6 +289,79 @@ module.exports = {
 // CLI EXECUTION
 // ============================================================================
 
+// ============================================================================
+// SIGNING UTILS
+// ============================================================================
+
+async function signAttestation(valuationData, signerPrivateKey, contractAddress) {
+  const wallet = new ethers.Wallet(signerPrivateKey);
+
+  const domain = {
+    name: "VITA Protocol",
+    version: "1",
+    chainId: 5003, // Mantle Sepolia
+    verifyingContract: contractAddress
+  };
+
+  const types = {
+    VitalityAttestation: [
+      { name: "worker", type: "address" },
+      { name: "githubUsername", type: "string" },
+      { name: "vitalityScore", type: "uint256" },
+      { name: "reliabilityScore", type: "uint256" },
+      { name: "pledgedHours", type: "uint256" },
+      { name: "skillCategory", type: "uint8" },
+      { name: "tokenValue", type: "uint256" },
+      { name: "validUntil", type: "uint256" },
+      { name: "nonce", type: "uint256" }
+    ]
+  };
+
+  // 0-100 score to scaled integer (if needed by contract, here we use score * 1e16 ?)
+  // Contract expects: vitalityScore scaled by 1e16 (max 100 * 1e16) ? 
+  // Wait, VitaToken.sol has comments: "vitalityScore: Scaled by 1e16".
+  // reliabilityScore: Scaled by 1e18.
+
+  // Let's normalize data based on Contract Struct
+  /*
+      struct VitalityAttestation {
+          address worker;
+          string githubUsername;
+          uint256 vitalityScore;      // Scaled by 1e16 (max 100 * 1e16)
+          uint256 reliabilityScore;   // Scaled by 1e18 (0-1 * 1e18)
+          uint256 pledgedHours;
+          SkillCategory skillCategory;
+          uint256 tokenValue;         // Token amount in wei
+          uint256 validUntil;         // Unix timestamp
+          uint256 nonce;
+      }
+  */
+
+  const workerAddress = process.env.WORKER_ADDRESS || wallet.address; // Default to self if not set
+  const nonce = Date.now();
+  const validUntil = Math.floor(Date.now() / 1000) + 86400; // 24h
+
+  const vitalityScoreScaled = BigInt(Math.floor(valuationData.reliabilityScore * 100 * 1e16)); // Scaled 0-100 logic? 
+  // Actually formula uses reliabilityScore (0-1). 
+  // Let's assume vitalityScore in struct is S_AI * 100.
+
+  const value = {
+    worker: workerAddress,
+    githubUsername: valuationData.githubUsername,
+    vitalityScore: BigInt(Math.floor(valuationData.reliabilityScore * 100)) * BigInt(1e16),
+    reliabilityScore: BigInt(Math.floor(valuationData.reliabilityScore * 1e18)),
+    pledgedHours: BigInt(valuationData.valuation.pledgedHours),
+    skillCategory: 0, // Default to SOLIDITY_DEV (0) for now or map string
+    tokenValue: BigInt(valuationData.valuation.tokenValueWei),
+    validUntil: BigInt(validUntil),
+    nonce: BigInt(nonce)
+  };
+
+  const signature = await wallet.signTypedData(domain, types, value);
+
+  return { signature, value, domain, types };
+}
+
 if (require.main === module) {
   const args = process.argv.slice(2);
 
@@ -301,13 +374,28 @@ if (require.main === module) {
 
   const [username, hours, skill, days] = args;
 
-  valuateWorker(username, parseInt(hours), skill, parseInt(days))
-    .then((result) => {
+  (async () => {
+    try {
+      const result = await valuateWorker(username, parseInt(hours), skill, parseInt(days));
       console.log("\n📋 Full Result:");
       console.log(JSON.stringify(result, null, 2));
-    })
-    .catch((error) => {
+
+      // Sign if Private Key exists
+      if (process.env.MANTLE_PRIVATE_KEY) {
+        console.log("\n🔐 Signing Attestation...");
+        const signed = await signAttestation(
+          result,
+          process.env.MANTLE_PRIVATE_KEY,
+          process.env.VITA_TOKEN_ADDRESS || "0x36987d58D3ba97462c241B52598aacd7B8C77228"
+        );
+        console.log("   Signature:", signed.signature);
+        console.log("   Struct:", JSON.stringify(signed.value, (_, v) => typeof v === 'bigint' ? v.toString() : v, 2));
+      } else {
+        console.log("\n⚠️  MANTLE_PRIVATE_KEY not set. Skipping signature generation.");
+      }
+    } catch (error) {
       console.error("Error:", error.message);
       process.exit(1);
-    });
+    }
+  })();
 }
