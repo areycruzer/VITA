@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Layers, ExternalLink, Calendar, Clock, ArrowUpRight } from "lucide-react";
+import { Layers, ExternalLink, Calendar, Clock } from "lucide-react";
 import Link from "next/link";
 import { BentoGrid, BentoCard } from "@/components/ui/bento-grid";
 

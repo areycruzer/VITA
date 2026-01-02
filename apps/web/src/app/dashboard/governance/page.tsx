@@ -1,8 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Hammer, ArrowUpRight } from "lucide-react";
-import Link from "next/link";
+import { Hammer } from "lucide-react";
 
 export default function GovernancePage() {
     return (

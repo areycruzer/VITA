@@ -1,16 +1,6 @@
 import { NextResponse } from "next/server";
 import { privateKeyToAccount } from "viem/accounts";
-import { createWalletClient, http, defineChain } from "viem";
 
-// Define Mantle Sepolia chain if not available in viem/chains by default
-const mantleSepolia = defineChain({
-    id: 5003,
-    name: "Mantle Sepolia Testnet",
-    nativeCurrency: { name: "Mantle", symbol: "MNT", decimals: 18 },
-    rpcUrls: {
-        default: { http: ["https://rpc.sepolia.mantle.xyz"] },
-    },
-});
 
 export async function POST(req: Request) {
     try {
@@ -124,7 +114,7 @@ export async function POST(req: Request) {
             name: "VITA Protocol",
             version: "2",
             chainId: 5003,
-            verifyingContract: process.env.NEXT_PUBLIC_VITA_TOKEN_V2_ADDRESS as `0x${string}`,
+            verifyingContract: process.env.NEXT_PUBLIC_VITA_TOKEN_V2 as `0x${string}`,
         } as const;
 
         const types = {

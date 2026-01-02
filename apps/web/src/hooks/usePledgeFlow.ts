@@ -66,7 +66,7 @@ export function usePledgeFlow(): UsePledgeFlowReturn {
     const [signature, setSignature] = useState<SignatureData | null>(null);
 
     // Contract write
-    const { writeContract, data: txHash, isPending } = useWriteContract();
+    const { writeContract, data: txHash } = useWriteContract();
     const { isSuccess: txConfirmed } = useWaitForTransactionReceipt({ hash: txHash });
 
     // Fetch real GitHub profile

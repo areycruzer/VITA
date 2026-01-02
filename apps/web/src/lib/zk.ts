@@ -15,7 +15,7 @@ export interface Groth16Proof {
     curve: string;
 }
 
-export interface Groth16PublicSignals extends Array<string> { }
+export type Groth16PublicSignals = string[];
 
 export interface WorkProofInput {
     commitHash: string; // BigInt string
@@ -35,11 +35,11 @@ export interface FullProof {
     publicSignals: Groth16PublicSignals;
 }
 
-// @ts-ignore
+// @ts-expect-error - snarkjs types are missing
 import * as snarkjs from 'snarkjs';
 
 
-// @ts-ignore
+// @ts-expect-error - circomlibjs types are missing
 import { buildPoseidon } from 'circomlibjs';
 
 /**
@@ -48,7 +48,6 @@ import { buildPoseidon } from 'circomlibjs';
  * workerCommitment === Poseidon(workerAddress, nonce)
  */
 export async function generateWorkProof(input: WorkProofInput): Promise<FullProof> {
-    console.log("Generating Real ZK Proof for input:", input);
 
     try {
         // 1. Initialize Poseidon
@@ -64,7 +63,6 @@ export async function generateWorkProof(input: WorkProofInput): Promise<FullProo
         const workerCommitmentRaw = poseidon([workerAddrBigInt, nonceBigInt]);
         const workerCommitment = F.toString(workerCommitmentRaw);
 
-        console.log("Computed Worker Commitment:", workerCommitment);
 
         // 4. Construct full circuit input
         const circuitInput = {
@@ -83,7 +81,6 @@ export async function generateWorkProof(input: WorkProofInput): Promise<FullProo
             contributionScore: input.contributionScore
         };
 
-        console.log("Circuit Input:", JSON.stringify(circuitInput, (_, v) => typeof v === 'bigint' ? v.toString() : v));
 
         // 5. Generate Proof
         const { proof, publicSignals } = await snarkjs.groth16.fullProve(

@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 import { injected } from "wagmi/connectors";
-import { parseEther } from "viem";
 import {
   Github,
   Wallet,
@@ -18,8 +17,8 @@ import {
   ExternalLink,
 } from "lucide-react";
 import Link from "next/link";
-import { useValuation, useMintEcho, useWorkerNonce } from "@/lib/hooks";
-import { CONTRACTS, EXPLORER_URL, SKILL_LABELS, SKILL_CATEGORIES, SKILL_RATES } from "@/lib/contracts";
+import { useValuation, useMintEcho } from "@/lib/hooks";
+import { SKILL_LABELS, SKILL_RATES } from "@/lib/contracts";
 import { Logo } from "@/components/Logo";
 
 // Step states
@@ -70,16 +69,13 @@ export default function PledgePage() {
   // Wagmi hooks
   const { address, isConnected } = useAccount();
   const { connect } = useConnect();
-  const { disconnect } = useDisconnect();
-
   // Contract hooks
-  const { nonce } = useWorkerNonce();
-  const { finalValue, hourlyRate, isLoading: valuationLoading } = useValuation(
+  const { finalValue } = useValuation(
     skillCategoryId,
     pledgeHours,
     vitalityScore
   );
-  const { mint, hash: txHash, isPending: mintPending, isSuccess: mintComplete } = useMintEcho();
+  const { mint, hash: txHash, isSuccess: mintComplete } = useMintEcho();
 
   const [steps, setSteps] = useState<PledgeStep[]>([
     {

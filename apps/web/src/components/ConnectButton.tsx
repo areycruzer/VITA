@@ -1,6 +1,6 @@
 "use client";
 
-import { useAccount, useConnect, useDisconnect, useChainId } from "wagmi";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,7 +13,6 @@ import {
 
 export function ConnectButton() {
     const { address, isConnected, chain } = useAccount();
-    const chainId = useChainId();
     const { connect, connectors } = useConnect();
     const { disconnect } = useDisconnect();
     const [mounted, setMounted] = useState(false);

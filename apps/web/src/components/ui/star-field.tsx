@@ -24,7 +24,7 @@ export function StarField() {
         let stars: Star[] = [];
         const numStars = 150;
         const connectionDistance = 100;
-        let mouse = { x: -1000, y: -1000 };
+        const mouse = { x: -1000, y: -1000 };
 
         const resize = () => {
             canvas.width = window.innerWidth;

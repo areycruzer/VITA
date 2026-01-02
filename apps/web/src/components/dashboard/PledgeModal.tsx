@@ -10,7 +10,6 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Github, CheckCircle2, Zap, AlertCircle, Lock, Coins } from "lucide-react";
@@ -52,13 +51,32 @@ const VITA_ABI = [
     }
 ] as const;
 
+// Define types for state
+interface AttestationState {
+    worker: string;
+    githubUsername: string;
+    vitalityScore: string;
+    reliabilityScore: string;
+    pledgedHours: string;
+    skillCategory: number;
+    tokenValue: string;
+    validUntil: string;
+    nonce: string;
+}
+
+interface SignatureState {
+    v: number;
+    r: `0x${string}`;
+    s: `0x${string}`;
+}
+
 export function PledgeModal({ onSuccess }: { onSuccess?: () => void }) {
     const [step, setStep] = useState(1);
     const [progress, setProgress] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
     const [githubUser, setGithubUser] = useState("");
-    const [attestationData, setAttestationData] = useState<any>(null);
-    const [signatureData, setSignatureData] = useState<any>(null);
+    const [attestationData, setAttestationData] = useState<AttestationState | null>(null);
+    const [signatureData, setSignatureData] = useState<SignatureState | null>(null);
     const [isGeneratingProof, setIsGeneratingProof] = useState(false);
 
     const { address } = useAccount();
@@ -155,7 +173,17 @@ export function PledgeModal({ onSuccess }: { onSuccess?: () => void }) {
                 abi: VITA_ABI,
                 functionName: "mintEcho",
                 args: [
-                    attestationData,
+                    {
+                        worker: attestationData.worker as `0x${string}`,
+                        githubUsername: attestationData.githubUsername,
+                        vitalityScore: BigInt(attestationData.vitalityScore),
+                        reliabilityScore: BigInt(attestationData.reliabilityScore),
+                        pledgedHours: BigInt(attestationData.pledgedHours),
+                        skillCategory: attestationData.skillCategory,
+                        tokenValue: BigInt(attestationData.tokenValue),
+                        validUntil: BigInt(attestationData.validUntil),
+                        nonce: BigInt(attestationData.nonce),
+                    },
                     signatureData.v,
                     signatureData.r,
                     signatureData.s

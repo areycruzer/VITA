@@ -1,8 +1,8 @@
 "use client";
 
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
-import { parseEther, formatEther } from "viem";
-import { CONTRACTS, CHAIN_ID, VITA_DOMAIN, SKILL_RATES } from "./contracts";
+import { formatEther } from "viem";
+import { CONTRACTS, VITA_DOMAIN, SKILL_RATES } from "./contracts";
 import { VITA_TOKEN_V2_ABI, VALUATION_ENGINE_ABI, METH_STAKING_ABI } from "./abis";
 
 /**
