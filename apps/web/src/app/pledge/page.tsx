@@ -489,7 +489,7 @@ export default function PledgePage() {
                 <button
                   onClick={handleGitHubConnect}
                   disabled={steps[1].status === "loading" || !githubUsername.trim()}
-                  className="w-full py-4 rounded-lg bg-white text-black font-semibold hover:bg-gray-100 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="w-full py-4 rounded-lg bg-gradient-to-r from-mantle-cyan to-mantle-purple text-white font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {steps[1].status === "loading" ? (
                     <>
