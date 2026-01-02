@@ -56,3 +56,5 @@ build/
 # Misc
 *.pem
 .turbo
+.vercel
+.env*.local
