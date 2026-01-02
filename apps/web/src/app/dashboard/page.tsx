@@ -2,6 +2,7 @@
 
 import { BentoGrid, BentoCard } from "@/components/ui/bento-grid";
 import { PledgeModal } from "@/components/dashboard/PledgeModal";
+import { RecentActivity } from "@/components/dashboard/RecentActivity";
 import { useVitaData } from "@/hooks/useVitaData";
 import { formatEther } from "viem";
 import { Activity, Briefcase, Zap, TrendingUp, ChevronDown, CheckCircle2 } from "lucide-react";
@@ -109,22 +110,7 @@ export default function DashboardPage() {
         {/* Feed / Activity */}
         <BentoCard className="md:col-span-3 glass-liquid p-6">
           <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-widest mb-6">Recent Activity</h3>
-          <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="flex items-center justify-between p-3 rounded-lg hover:bg-white/5 transition-colors group cursor-default">
-                <div className="flex items-center gap-4">
-                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                    <CheckCircle2 className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <div className="text-sm text-white font-medium">Minted 500 VITA</div>
-                    <div className="text-xs text-muted-foreground font-mono">Tx: 0x8a...4b2f</div>
-                  </div>
-                </div>
-                <div className="text-xs text-muted-foreground font-mono">2 mins ago</div>
-              </div>
-            ))}
-          </div>
+          <RecentActivity />
         </BentoCard>
       </BentoGrid>
     </div>
