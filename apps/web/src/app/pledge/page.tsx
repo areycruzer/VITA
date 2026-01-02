@@ -31,15 +31,15 @@ interface PledgeStep {
   status: StepStatus;
 }
 
-// Mock GitHub profile data (would be replaced by real OAuth)
-const mockGitHubProfile = {
-  username: "johndoe",
-  avatar: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-  repos: 42,
-  commits: 1247,
-  stars: 156,
-  followers: 89,
-};
+// GitHub profile data (fetched from real API)
+interface GitHubProfile {
+  username: string;
+  avatar: string;
+  repos: number;
+  commits: number;
+  stars: number;
+  followers: number;
+}
 
 export default function PledgePage() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -49,12 +49,14 @@ export default function PledgePage() {
   const [vitalityScore, setVitalityScore] = useState(85);
   const [isProcessing, setIsProcessing] = useState(false);
   const [valuationComplete, setValuationComplete] = useState(false);
+  const [githubUsername, setGithubUsername] = useState("");
+  const [githubProfile, setGithubProfile] = useState<GitHubProfile | null>(null);
 
   // Wagmi hooks
   const { address, isConnected } = useAccount();
   const { connect } = useConnect();
   const { disconnect } = useDisconnect();
-  
+
   // Contract hooks
   const { nonce } = useWorkerNonce();
   const { finalValue, hourlyRate, isLoading: valuationLoading } = useValuation(
@@ -117,16 +119,54 @@ export default function PledgePage() {
     connect({ connector: injected() });
   };
 
-  // Handle GitHub OAuth (simulated - would use real OAuth in production)
+  // Handle GitHub Connect - Fetches REAL GitHub data
   const handleGitHubConnect = async () => {
+    if (!githubUsername.trim()) {
+      alert("Please enter a GitHub username");
+      return;
+    }
     updateStepStatus(2, "loading");
-    
-    // Simulate OAuth redirect
-    await new Promise((r) => setTimeout(r, 2000));
-    
-    setIsGitHubConnected(true);
-    updateStepStatus(2, "complete");
-    setCurrentStep(2);
+
+    try {
+      // Fetch real GitHub data
+      const headers: Record<string, string> = {
+        "User-Agent": "VITA-Protocol",
+        "Accept": "application/vnd.github.v3+json",
+      };
+
+      const [userRes, reposRes, eventsRes] = await Promise.all([
+        fetch(`https://api.github.com/users/${githubUsername}`, { headers }),
+        fetch(`https://api.github.com/users/${githubUsername}/repos?per_page=100`, { headers }),
+        fetch(`https://api.github.com/users/${githubUsername}/events?per_page=100`, { headers }),
+      ]);
+
+      if (!userRes.ok) throw new Error("GitHub user not found");
+
+      const userData = await userRes.json();
+      const repos = reposRes.ok ? await reposRes.json() : [];
+      const events = eventsRes.ok ? await eventsRes.json() : [];
+
+      const totalStars = repos.reduce((sum: number, r: { stargazers_count?: number }) => sum + (r.stargazers_count || 0), 0);
+      const pushEvents = events.filter((e: { type: string }) => e.type === "PushEvent");
+      const commitCount = pushEvents.reduce((sum: number, e: { payload?: { commits?: unknown[] } }) => sum + (e.payload?.commits?.length || 0), 0);
+
+      setGithubProfile({
+        username: userData.login,
+        avatar: userData.avatar_url,
+        repos: userData.public_repos || 0,
+        commits: commitCount,
+        stars: totalStars,
+        followers: userData.followers || 0,
+      });
+
+      setIsGitHubConnected(true);
+      updateStepStatus(2, "complete");
+      setCurrentStep(2);
+    } catch (error) {
+      console.error("GitHub fetch error:", error);
+      updateStepStatus(2, "error");
+      alert("Failed to fetch GitHub data. Please check the username.");
+    }
   };
 
   // Handle pledge configuration
@@ -152,14 +192,14 @@ export default function PledgePage() {
   // Handle minting with real contract call
   const handleMint = async () => {
     if (!address) return;
-    
+
     updateStepStatus(5, "loading");
     setIsProcessing(true);
 
     // In production, this would call the actual mint function with a signed attestation
     // For demo, we simulate the transaction
     await new Promise((r) => setTimeout(r, 2000));
-    
+
     // Mint complete is tracked via useMintEcho hook
     updateStepStatus(5, "complete");
     setIsProcessing(false);
@@ -203,11 +243,10 @@ export default function PledgePage() {
               Dashboard
             </Link>
             <div
-              className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 ${
-                isConnected
-                  ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                  : "bg-card border border-border text-muted-foreground"
-              }`}
+              className={`px-4 py-2 rounded-lg font-medium flex items-center gap-2 ${isConnected
+                ? "bg-green-500/20 text-green-400 border border-green-500/30"
+                : "bg-card border border-border text-muted-foreground"
+                }`}
             >
               <Wallet className="w-4 h-4" />
               {isConnected ? "0x7c2...4E3f" : "Not Connected"}
@@ -241,17 +280,16 @@ export default function PledgePage() {
               <div key={step.id} className="flex items-center">
                 <div className="flex flex-col items-center">
                   <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all ${
-                      step.status === "complete"
-                        ? "bg-green-500 border-green-500 text-white"
-                        : step.status === "loading"
+                    className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all ${step.status === "complete"
+                      ? "bg-green-500 border-green-500 text-white"
+                      : step.status === "loading"
                         ? "bg-mantle-cyan/20 border-mantle-cyan text-mantle-cyan"
                         : step.status === "error"
-                        ? "bg-red-500/20 border-red-500 text-red-500"
-                        : currentStep >= index
-                        ? "bg-card border-mantle-cyan text-mantle-cyan"
-                        : "bg-card border-border text-muted-foreground"
-                    }`}
+                          ? "bg-red-500/20 border-red-500 text-red-500"
+                          : currentStep >= index
+                            ? "bg-card border-mantle-cyan text-mantle-cyan"
+                            : "bg-card border-border text-muted-foreground"
+                      }`}
                   >
                     {step.status === "complete" ? (
                       <CheckCircle className="w-6 h-6" />
@@ -262,24 +300,22 @@ export default function PledgePage() {
                     )}
                   </div>
                   <p
-                    className={`text-xs mt-2 text-center max-w-20 ${
-                      step.status === "complete"
-                        ? "text-green-400"
-                        : currentStep >= index
+                    className={`text-xs mt-2 text-center max-w-20 ${step.status === "complete"
+                      ? "text-green-400"
+                      : currentStep >= index
                         ? "text-foreground"
                         : "text-muted-foreground"
-                    }`}
+                      }`}
                   >
                     {step.title}
                   </p>
                 </div>
                 {index < steps.length - 1 && (
                   <div
-                    className={`w-16 lg:w-24 h-0.5 mx-2 ${
-                      step.status === "complete"
-                        ? "bg-green-500"
-                        : "bg-border"
-                    }`}
+                    className={`w-16 lg:w-24 h-0.5 mx-2 ${step.status === "complete"
+                      ? "bg-green-500"
+                      : "bg-border"
+                      }`}
                   />
                 )}
               </div>
@@ -337,29 +373,40 @@ export default function PledgePage() {
                     Link Your GitHub
                   </h2>
                   <p className="text-muted-foreground">
-                    Authenticate with GitHub to verify your contributions and
-                    calculate your vitality score.
+                    Enter your GitHub username to fetch your real contribution data.
                   </p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-foreground mb-2">
+                    GitHub Username
+                  </label>
+                  <input
+                    type="text"
+                    value={githubUsername}
+                    onChange={(e) => setGithubUsername(e.target.value)}
+                    placeholder="e.g., vitalik"
+                    className="w-full p-3 rounded-lg bg-background border border-border text-foreground focus:border-mantle-cyan focus:outline-none"
+                  />
                 </div>
                 <button
                   onClick={handleGitHubConnect}
-                  disabled={steps[1].status === "loading"}
+                  disabled={steps[1].status === "loading" || !githubUsername.trim()}
                   className="w-full py-4 rounded-lg bg-white text-black font-semibold hover:bg-gray-100 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {steps[1].status === "loading" ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      Authenticating...
+                      Fetching GitHub Data...
                     </>
                   ) : (
                     <>
                       <Github className="w-5 h-5" />
-                      Connect with GitHub
+                      Fetch GitHub Profile
                     </>
                   )}
                 </button>
                 <p className="text-xs text-center text-muted-foreground">
-                  We only read public repository data. No write access required.
+                  We only read public repository data. No authentication required.
                 </p>
               </div>
             )}
@@ -383,12 +430,12 @@ export default function PledgePage() {
                   </div>
                   <div className="flex-1">
                     <p className="font-semibold text-foreground">
-                      @{mockGitHubProfile.username}
+                      @{githubProfile?.username || "..."}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      {mockGitHubProfile.commits} commits •{" "}
-                      {mockGitHubProfile.repos} repos •{" "}
-                      {mockGitHubProfile.stars} stars
+                      {githubProfile?.commits || 0} commits •{" "}
+                      {githubProfile?.repos || 0} repos •{" "}
+                      {githubProfile?.stars || 0} stars
                     </p>
                   </div>
                   <CheckCircle className="w-5 h-5 text-green-400" />

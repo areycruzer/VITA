@@ -104,6 +104,11 @@ export async function POST(req: Request) {
         const SKILL_RATES: Record<number, number> = { 0: 150, 1: 100, 2: 120, 3: 130, 4: 110, 5: 140, 6: 160, 7: 90, 8: 60, 9: 70 };
         const hourlyRate = SKILL_RATES[skill] || 100;
 
+        // 5. VITA Formula: V = (H * R) * S_AI
+        const baseValuation = BigInt(hours * hourlyRate);
+        const scoreMultiplier = BigInt(vitalityScore);
+        const tokenValue = (baseValuation * scoreMultiplier * BigInt(1e18)) / BigInt(1000);
+
         // Validity: 24 hours
         const validUntil = BigInt(Math.floor(Date.now() / 1000) + 86400);
 
