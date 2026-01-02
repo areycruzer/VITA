@@ -66,7 +66,7 @@ export default function DashboardPage() {
             <div className="pt-8">
               <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-widest mb-2">Total Vitality</h2>
               <div className="text-6xl md:text-7xl font-light tracking-tighter text-white">
-                {balance ? Math.floor(Number(formatEther(balance))).toLocaleString() : "0"}
+                {balance ? Math.floor(balance).toLocaleString() : "0"}
                 <span className="text-2xl text-muted-foreground/50 ml-4 font-normal">VITA</span>
               </div>
             </div>
@@ -83,9 +83,9 @@ export default function DashboardPage() {
             <Briefcase className="h-5 w-5" />
           </div>
           <div>
-            <div className="text-sm text-muted-foreground mb-1">Pledged Hours</div>
+            <div className="text-sm text-muted-foreground mb-1">Lifetime VITA Minted</div>
             <div className="text-3xl font-mono text-white">
-              {profile ? profile.pledgedHours.toString() : "0"}h
+              {profile ? Math.floor(Number(formatEther(profile.totalMinted))).toLocaleString() : "0"}
             </div>
             <div className="mt-2 text-xs text-green-400 flex items-center gap-1">
               <TrendingUp className="h-3 w-3" /> +12% this month

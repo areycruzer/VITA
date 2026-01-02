@@ -23,7 +23,7 @@ export function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <div className="hidden border-r border-border glass-matte lg:block lg:w-72 lg:fixed lg:inset-y-0 lg:top-16 lg:bottom-0 overflow-y-auto">
+        <div className="hidden border-r border-border glass-liquid lg:block lg:w-72 lg:fixed lg:inset-y-0 lg:top-16 lg:bottom-0 overflow-y-auto">
             <div className="flex flex-col gap-2 p-6">
                 <div className="mb-4 px-2">
                     <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Protocol</h2>
