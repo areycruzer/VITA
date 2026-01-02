@@ -12,13 +12,13 @@ export const VITA_TOKEN_V2_ABI = [
   "function workerProfiles(address worker) view returns (uint256 totalMinted, uint256 lastMintTimestamp, uint8 skillCategory, uint256 vitalityScore)",
   "function pendingYield(address worker) view returns (uint256)",
   "function initialized() view returns (bool)",
-  
+
   // Write functions
-  "function mintEcho(address worker, uint8 skillCategory, uint256 pledgedHours, uint256 vitalityScore, uint256 reliabilityScore, uint256 mintAmount, uint256 deadline, uint8 v, bytes32 r, bytes32 s) payable",
+  "function mintEcho((address worker, string githubUsername, uint256 vitalityScore, uint256 reliabilityScore, uint256 pledgedHours, uint8 skillCategory, uint256 tokenValue, uint256 validUntil, uint256 nonce) attestation, uint8 v, bytes32 r, bytes32 s) payable returns (uint256 tokenId)",
   "function transfer(address to, uint256 amount) returns (bool)",
   "function approve(address spender, uint256 amount) returns (bool)",
   "function claimYield()",
-  
+
   // Events
   "event ProductivityEchoed(address indexed worker, uint256 amount, uint8 skillCategory, uint256 vitalityScore)",
   "event YieldClaimed(address indexed worker, uint256 amount)",

@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function DocsPage() {
     return (
-        <div className="max-w-4xl mx-auto space-y-12 animate-in fade-in duration-700">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12 animate-in fade-in duration-700">
 
             {/* Header */}
             <div className="space-y-4">
@@ -17,10 +17,10 @@ export default function DocsPage() {
             </div>
 
             {/* Grid */}
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
 
                 {/* Card 1 */}
-                <Link href="#" className="group p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-500/50 transition-all">
+                <Link href="https://github.com/areycruzer/VITA/blob/main/README.md" target="_blank" className="group p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-500/50 transition-all">
                     <Book className="w-8 h-8 text-cyan-400 mb-4" />
                     <h3 className="text-lg font-medium mb-2 group-hover:text-cyan-400 transition-colors">Quick Start</h3>
                     <p className="text-sm text-white/40 mb-4">
@@ -32,7 +32,7 @@ export default function DocsPage() {
                 </Link>
 
                 {/* Card 2 */}
-                <Link href="#" className="group p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-violet-500/50 transition-all">
+                <Link href="https://github.com/areycruzer/VITA/blob/main/docs/VALUATION_PAPER.md" target="_blank" className="group p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-violet-500/50 transition-all">
                     <FileText className="w-8 h-8 text-violet-400 mb-4" />
                     <h3 className="text-lg font-medium mb-2 group-hover:text-violet-400 transition-colors">Valuation Paper</h3>
                     <p className="text-sm text-white/40 mb-4">
@@ -44,7 +44,7 @@ export default function DocsPage() {
                 </Link>
 
                 {/* Card 3 */}
-                <Link href="#" className="group p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-emerald-500/50 transition-all">
+                <Link href="https://github.com/areycruzer/VITA/tree/main/packages/contracts" target="_blank" className="group p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-emerald-500/50 transition-all">
                     <Code2 className="w-8 h-8 text-emerald-400 mb-4" />
                     <h3 className="text-lg font-medium mb-2 group-hover:text-emerald-400 transition-colors">Contracts</h3>
                     <p className="text-sm text-white/40 mb-4">
@@ -58,7 +58,7 @@ export default function DocsPage() {
             </div>
 
             {/* API Reference */}
-            <div className="p-8 rounded-2xl bg-gradient-to-br from-white/5 to-transparent border border-white/10">
+            <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-white/5 to-transparent border border-white/10">
                 <h2 className="text-2xl font-light mb-4">Developer SDK</h2>
                 <div className="p-4 rounded-xl bg-black/40 border border-white/5 font-mono text-sm text-white/60 mb-6">
                     <span className="text-purple-400">npm</span> install @vita-protocol/sdk

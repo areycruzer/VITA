@@ -12,7 +12,7 @@ export default function DashboardLayout({
             <Navbar />
             <div className="flex">
                 <Sidebar />
-                <main className="flex-1 lg:pl-72 p-8 pt-6 pb-24 lg:pb-8">
+                <main className="flex-1 lg:pl-72 px-4 sm:px-6 lg:px-8 pt-6 pb-24 lg:pb-8">
                     {children}
                     <MobileNav />
                     <footer className="mt-12 border-t border-border pt-6 text-center text-xs text-muted-foreground">

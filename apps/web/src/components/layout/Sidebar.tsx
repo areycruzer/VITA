@@ -15,8 +15,8 @@ import {
 const navigation = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "Pledge Vitality", href: "/pledge", icon: Zap },
-    { name: "My Echoes", href: "/echoes", icon: Layers },
-    { name: "Governance", href: "/governance", icon: Scale },
+    { name: "My Echoes", href: "/dashboard/echoes", icon: Layers },
+    { name: "Governance", href: "/dashboard/governance", icon: Scale },
 ];
 
 export function Sidebar() {
@@ -31,7 +31,7 @@ export function Sidebar() {
 
                 <nav className="space-y-1">
                     {navigation.map((item) => {
-                        const isActive = pathname === item.href;
+                        const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href));
                         return (
                             <Link
                                 key={item.name}
@@ -54,7 +54,7 @@ export function Sidebar() {
                     <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Resources</h2>
                 </div>
                 <nav className="space-y-1">
-                    <Link href="/docs" className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground">
+                    <Link href="/dashboard/docs" className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground">
                         <BookOpen className="h-4 w-4" />
                         Documentation
                     </Link>

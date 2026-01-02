@@ -20,7 +20,7 @@ export default function DashboardPage() {
   const { balance, profile, refetch } = useVitaData();
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-700">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-6 animate-in fade-in duration-700">
 
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
@@ -53,7 +53,7 @@ export default function DashboardPage() {
       <BentoGrid className="grid-cols-1 md:grid-cols-3 gap-4">
 
         {/* 1. Main Balance Card (Large, Col 1-2, Row 1) */}
-        <BentoCard className="md:col-span-2 glass-liquid p-8 flex flex-col justify-between min-h-[350px] relative overflow-hidden group">
+        <BentoCard className="md:col-span-2 glass-liquid p-6 sm:p-8 flex flex-col justify-between min-h-[300px] sm:min-h-[350px] relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-32 bg-primary/20 blur-[100px] rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none" />
 
           <div className="space-y-2 relative z-10">

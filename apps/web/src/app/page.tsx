@@ -8,7 +8,7 @@ export default function Home() {
     <main className="min-h-screen bg-transparent text-white overflow-x-hidden">
       {/* Header */}
       <header className="relative z-40 border-b border-white/[0.06]">
-        <div className="max-w-7xl mx-auto px-8 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <nav className="flex items-center justify-between">
             <div className="flex items-center gap-12">
               <Link href="/" className="flex items-center gap-2">
@@ -18,8 +18,8 @@ export default function Home() {
               <div className="hidden md:flex items-center gap-8">
                 <Link href="/dashboard" className="text-sm font-medium text-white/60 hover:text-white transition-colors">Dashboard</Link>
                 <Link href="/pledge" className="text-sm font-medium text-white/60 hover:text-white transition-colors">Mint</Link>
-                <Link href="/docs" className="text-sm font-medium text-white/60 hover:text-white transition-colors">Docs</Link>
-                <Link href="/governance" className="text-sm font-medium text-white/60 hover:text-white transition-colors">Governance</Link>
+                <Link href="/dashboard/docs" className="text-sm font-medium text-white/60 hover:text-white transition-colors">Docs</Link>
+                <Link href="/dashboard/governance" className="text-sm font-medium text-white/60 hover:text-white transition-colors">Governance</Link>
               </div>
             </div>
             <div className="flex items-center gap-4">
@@ -30,8 +30,8 @@ export default function Home() {
       </header>
 
       {/* Hero */}
-      <section className="relative z-10 pt-24 pb-32">
-        <div className="max-w-7xl mx-auto px-8">
+      <section className="relative z-10 pt-16 sm:pt-24 pb-20 sm:pb-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left: Copy */}
             <div>
@@ -173,8 +173,8 @@ export default function Home() {
       </section>
 
       {/* How it works */}
-      <section className="relative z-10 py-32 border-t border-white/[0.06]">
-        <div className="max-w-7xl mx-auto px-8">
+      <section className="relative z-10 py-20 sm:py-32 border-t border-white/[0.06]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between mb-16">
             <div>
               <h2 className="text-3xl font-bold mb-3">How it works</h2>
@@ -226,9 +226,9 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="relative z-10 py-24">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="relative rounded-3xl border border-white/[0.06] bg-gradient-to-br from-white/[0.03] to-transparent p-12 md:p-16 overflow-hidden">
+      <section className="relative z-10 py-16 sm:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative rounded-3xl border border-white/[0.06] bg-gradient-to-br from-white/[0.03] to-transparent p-8 sm:p-12 md:p-16 overflow-hidden">
             <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gradient-to-bl from-cyan-500/20 to-transparent blur-[100px] pointer-events-none" />
 
             <div className="relative max-w-2xl">
@@ -248,8 +248,8 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-white/[0.06] py-12">
-        <div className="max-w-7xl mx-auto px-8">
+      <footer className="relative z-10 border-t border-white/[0.06] py-8 sm:py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-3">
               <Logo className="w-8 h-8" />

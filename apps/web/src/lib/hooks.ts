@@ -149,13 +149,17 @@ export function useMintEcho() {
   });
 
   const mint = async (params: {
-    worker: `0x${string}`;
-    skillCategory: number;
-    pledgedHours: number;
-    vitalityScore: number;
-    reliabilityScore: number;
-    mintAmount: bigint;
-    deadline: number;
+    attestation: {
+      worker: `0x${string}`;
+      githubUsername: string;
+      vitalityScore: bigint;
+      reliabilityScore: bigint;
+      pledgedHours: bigint;
+      skillCategory: number;
+      tokenValue: bigint;
+      validUntil: bigint;
+      nonce: bigint;
+    };
     v: number;
     r: `0x${string}`;
     s: `0x${string}`;
@@ -166,16 +170,10 @@ export function useMintEcho() {
       abi: VITA_TOKEN_V2_ABI,
       functionName: "mintEcho",
       args: [
-        params.worker,
-        params.skillCategory,
-        BigInt(Math.floor(params.pledgedHours)),
-        BigInt(Math.floor(params.vitalityScore)),
-        BigInt(Math.floor(params.reliabilityScore)),
-        params.mintAmount,
-        BigInt(Math.floor(params.deadline)),
+        params.attestation,
         params.v,
-        params.r,
-        params.s,
+        params.r as `0x${string}`,
+        params.s as `0x${string}`,
       ],
       value: params.value,
     });

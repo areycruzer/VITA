@@ -266,7 +266,7 @@ export default function PledgePage() {
 
   // Handle minting with REAL contract call
   const handleMint = async () => {
-    if (!address || !valuationData) return;
+    if (!address || !valuationData || !githubProfile) return;
 
     updateStepStatus(5, "loading");
     setIsProcessing(true);
@@ -275,15 +275,19 @@ export default function PledgePage() {
       const { attestation, signature } = valuationData;
 
       // Call the real mint function from useMintEcho hook
-      // Parameters match the hook: worker, skillCategory, pledgedHours, vitalityScore, reliabilityScore, mintAmount, deadline, v, r, s
+      // Pass attestation as an object matching the contract struct
       mint({
-        worker: attestation.worker as `0x${string}`,
-        skillCategory: attestation.skillCategory,
-        pledgedHours: parseInt(attestation.pledgedHours),
-        vitalityScore: parseInt(attestation.vitalityScore),
-        reliabilityScore: parseInt(attestation.reliabilityScore),
-        mintAmount: BigInt(attestation.tokenValue),
-        deadline: parseInt(attestation.validUntil),
+        attestation: {
+          worker: attestation.worker as `0x${string}`,
+          githubUsername: githubProfile.username,
+          vitalityScore: BigInt(attestation.vitalityScore),
+          reliabilityScore: BigInt(attestation.reliabilityScore),
+          pledgedHours: BigInt(attestation.pledgedHours),
+          skillCategory: attestation.skillCategory,
+          tokenValue: BigInt(attestation.tokenValue),
+          validUntil: BigInt(attestation.validUntil),
+          nonce: BigInt(attestation.nonce),
+        },
         v: signature.v,
         r: signature.r as `0x${string}`,
         s: signature.s as `0x${string}`,
@@ -322,7 +326,7 @@ export default function PledgePage() {
     <main className="min-h-screen bg-transparent">
       {/* Header */}
       <nav className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <Logo className="w-10 h-10" />
             <span className="text-2xl font-bold gradient-text">VITA</span>
@@ -353,7 +357,7 @@ export default function PledgePage() {
         </div>
       </nav>
 
-      <div className="container mx-auto px-6 py-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Page Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-mantle-cyan/30 bg-mantle-cyan/10 mb-6">

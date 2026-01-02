@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function GovernancePage() {
     return (
-        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6 animate-in fade-in duration-700">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6 animate-in fade-in duration-700">
             <div className="p-4 rounded-full bg-white/5 border border-white/10">
                 <Hammer className="w-12 h-12 text-white/40" />
             </div>
