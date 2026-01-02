@@ -146,8 +146,8 @@ export async function POST(req: Request) {
             githubUsername,
             vitalityScore: BigInt(vitalityScore),
             reliabilityScore: BigInt(Math.floor(reliabilityScore * 100)), // Convert 0.0-1.0 to 0-100
-            pledgedHours: BigInt(pledgedHours),
-            skillCategory,
+            pledgedHours: BigInt(hours), // Use hours variable with default
+            skillCategory: skill, // Use skill variable with default
             tokenValue,
             validUntil,
             nonce,
@@ -171,8 +171,8 @@ export async function POST(req: Request) {
                     githubUsername,
                     vitalityScore: vitalityScore.toString(),
                     reliabilityScore: Math.floor(reliabilityScore * 100).toString(), // 0-100 scale
-                    pledgedHours: pledgedHours.toString(),
-                    skillCategory,
+                    pledgedHours: hours.toString(), // Use hours with default
+                    skillCategory: skill, // Use skill with default
                     tokenValue: tokenValue.toString(),
                     validUntil: validUntil.toString(),
                     nonce: nonce.toString()
