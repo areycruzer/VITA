@@ -145,7 +145,7 @@ export async function POST(req: Request) {
             worker: workerAddress as `0x${string}`,
             githubUsername,
             vitalityScore: BigInt(vitalityScore),
-            reliabilityScore: BigInt(reliabilityScore),
+            reliabilityScore: BigInt(Math.floor(reliabilityScore * 100)), // Convert 0.0-1.0 to 0-100
             pledgedHours: BigInt(pledgedHours),
             skillCategory,
             tokenValue,
@@ -170,7 +170,7 @@ export async function POST(req: Request) {
                     worker: workerAddress,
                     githubUsername,
                     vitalityScore: vitalityScore.toString(),
-                    reliabilityScore: reliabilityScore.toString(),
+                    reliabilityScore: Math.floor(reliabilityScore * 100).toString(), // 0-100 scale
                     pledgedHours: pledgedHours.toString(),
                     skillCategory,
                     tokenValue: tokenValue.toString(),
@@ -183,7 +183,12 @@ export async function POST(req: Request) {
 
     } catch (error) {
         console.error("Valuation Error:", error);
-        return NextResponse.json({ error: "Valuation Failed" }, { status: 500 });
+        console.error("Error details:", error instanceof Error ? error.message : String(error));
+        console.error("Stack:", error instanceof Error ? error.stack : "No stack");
+        return NextResponse.json({
+            error: "Valuation Failed",
+            details: error instanceof Error ? error.message : String(error)
+        }, { status: 500 });
     }
 }
 
