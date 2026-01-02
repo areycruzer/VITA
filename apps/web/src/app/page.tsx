@@ -49,14 +49,14 @@ export default function Home() {
               </div>
 
               <h1 className="text-5xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-8">
-                Turn
+                Valorizing
                 <span className="relative mx-3">
-                  <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-violet-400">Skills</span>
+                  <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-violet-400">Human Capital</span>
                   <span className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 via-blue-400/20 to-violet-400/20 blur-2xl" />
                 </span>
                 Into
                 <br />
-                <span className="text-white/40">On-Chain Capital</span>
+                <span className="text-white/40">Liquid Assets</span>
               </h1>
 
               <p className="text-lg text-white/50 leading-relaxed mb-10 max-w-lg">
@@ -98,54 +98,82 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right: Visual */}
+            {/* Right: Mantle Synergy Visual */}
             <div className="relative hidden lg:block">
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-violet-500/10 rounded-3xl" />
               <div className="relative p-8 rounded-3xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm">
-                {/* Terminal-like interface */}
-                <div className="flex items-center gap-2 mb-6">
-                  <div className="w-3 h-3 rounded-full bg-white/20" />
-                  <div className="w-3 h-3 rounded-full bg-white/20" />
-                  <div className="w-3 h-3 rounded-full bg-white/20" />
-                  <span className="ml-4 text-xs text-white/30 font-mono">vita-protocol:mint</span>
-                </div>
 
-                {/* Code block */}
-                <div className="font-mono text-sm space-y-3 text-white/60">
-                  <div><span className="text-cyan-400">const</span> valuation = <span className="text-violet-400">calculateValue</span>({"{"}</div>
-                  <div className="pl-4">hours: <span className="text-amber-400">160</span>,</div>
-                  <div className="pl-4">skill: <span className="text-green-400">"solidity_dev"</span>,</div>
-                  <div className="pl-4">vitalityScore: <span className="text-amber-400">850</span></div>
-                  <div>{"})"}</div>
-                  <div className="pt-2 border-t border-white/10">
-                    <span className="text-emerald-400">→</span> tokenValue: <span className="text-white font-semibold">$24,000</span>
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                    <span className="text-sm font-mono text-white/60">Mantle Ecosystem Synergy</span>
+                  </div>
+                  <div className="px-2 py-1 rounded bg-white/5 border border-white/10 text-[10px] font-mono text-white/40">
+                    LIVE
                   </div>
                 </div>
 
-                {/* Floating cards */}
-                <div className="absolute -right-4 top-20 p-4 rounded-xl bg-black/60 border border-white/10 backdrop-blur-xl shadow-2xl">
+                {/* Synergy Stats Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 rounded-xl bg-black/40 border border-white/5">
+                    <div className="text-xs text-white/40 mb-1">mETH Yield Strategy</div>
+                    <div className="text-lg font-mono text-cyan-400">~3.42% APY</div>
+                    <div className="w-full h-1 bg-white/10 mt-2 rounded-full overflow-hidden">
+                      <div className="h-full w-[70%] bg-cyan-500/50" />
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-black/40 border border-white/5">
+                    <div className="text-xs text-white/40 mb-1">Total Value Locked</div>
+                    <div className="text-lg font-mono text-violet-400">$4.2M</div>
+                    <div className="w-full h-1 bg-white/10 mt-2 rounded-full overflow-hidden">
+                      <div className="h-full w-[85%] bg-violet-500/50" />
+                    </div>
+                  </div>
+
+                  <div className="col-span-2 p-4 rounded-xl bg-black/40 border border-white/5 flex items-center justify-between">
+                    <div>
+                      <div className="text-xs text-white/40 mb-1">Recent Mint</div>
+                      <div className="flex items-center gap-2">
+                        <Github className="w-3 h-3 text-white/60" />
+                        <span className="text-sm font-mono">areycruzer/VITA</span>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xs text-emerald-400 font-medium">+2,400 VITA</div>
+                      <div className="text-[10px] text-white/30">Just now</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Trust Score Badge Floating */}
+                <div className="absolute -right-4 top-20 p-4 rounded-xl bg-black/60 border border-white/10 backdrop-blur-xl shadow-2xl animate-float">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center">
-                      <Activity className="w-5 h-5 text-white" />
+                    <div className="relative w-10 h-10 flex items-center justify-center">
+                      <div className="absolute inset-0 bg-cyan-500/20 rounded-full animate-ping" />
+                      <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center border border-white/20">
+                        <Activity className="w-5 h-5 text-white" />
+                      </div>
                     </div>
                     <div>
-                      <div className="text-sm font-medium">Vitality Score</div>
-                      <div className="text-xs text-white/50">Real-time GitHub metrics</div>
+                      <div className="text-sm font-medium">Trust Score</div>
+                      <div className="text-xs font-mono text-cyan-300">98/100 (Top 1%)</div>
                     </div>
                   </div>
                 </div>
 
-                <div className="absolute -left-4 bottom-16 p-4 rounded-xl bg-black/60 border border-white/10 backdrop-blur-xl shadow-2xl">
+                <div className="absolute -left-4 bottom-16 p-4 rounded-xl bg-black/60 border border-white/10 backdrop-blur-xl shadow-2xl animate-float-delayed">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center border border-white/20">
                       <Shield className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <div className="text-sm font-medium">ZK Verified</div>
-                      <div className="text-xs text-white/50">Privacy-preserving proofs</div>
+                      <div className="text-sm font-medium">ZK Compliance</div>
+                      <div className="text-xs font-mono text-violet-300">Verified</div>
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>

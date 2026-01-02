@@ -33,53 +33,55 @@ function generateProjectionData(currentBalance: number) {
 export function ValuationChart({ currentBalance = 0 }: ValuationChartProps) {
     const data = generateProjectionData(currentBalance);
     return (
-        <Card className="col-span-2 shadow-lg border-border/50 bg-card/50 backdrop-blur-sm">
-            <CardHeader>
-                <CardTitle className="text-lg font-medium text-foreground">Projected Echo Value</CardTitle>
-            </CardHeader>
-            <CardContent className="h-[300px]">
+        <div className="w-full h-full min-h-[300px] flex flex-col">
+            <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-widest mb-6">Projected Value</h3>
+            <div className="flex-1 w-full min-h-[250px]">
                 <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={data}>
                         <defs>
                             <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
-                                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                                <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3} />
+                                <stop offset="95%" stopColor="#06b6d4" stopOpacity={0} />
                             </linearGradient>
                         </defs>
-                        <CartesianGrid strokeDasharray="3 3" className="stroke-muted/20" vertical={false} />
+                        <CartesianGrid strokeDasharray="3 3" className="stroke-white/5" vertical={false} />
                         <XAxis
                             dataKey="name"
-                            stroke="#64748b"
+                            stroke="#525252"
                             fontSize={12}
                             tickLine={false}
                             axisLine={false}
+                            dy={10}
                         />
                         <YAxis
-                            stroke="#64748b"
+                            stroke="#525252"
                             fontSize={12}
                             tickLine={false}
                             axisLine={false}
                             tickFormatter={(value) => `$${value}`}
+                            dx={-10}
                         />
                         <Tooltip
                             contentStyle={{
-                                backgroundColor: "#0f172a",
-                                border: "1px solid #1e293b",
+                                backgroundColor: "#0A0A0A",
+                                border: "1px solid rgba(255,255,255,0.1)",
                                 borderRadius: "8px",
-                                color: "#f8fafc",
+                                color: "#fff",
+                                boxShadow: "0 0 20px rgba(0,0,0,0.5)"
                             }}
+                            itemStyle={{ color: "#06b6d4" }}
                         />
                         <Area
                             type="monotone"
                             dataKey="value"
-                            stroke="#3b82f6"
-                            strokeWidth={3}
+                            stroke="#06b6d4"
+                            strokeWidth={2}
                             fillOpacity={1}
                             fill="url(#colorValue)"
                         />
                     </AreaChart>
                 </ResponsiveContainer>
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     );
 }

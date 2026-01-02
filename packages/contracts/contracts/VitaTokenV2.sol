@@ -9,6 +9,7 @@ import "@openzeppelin/contracts/utils/Pausable.sol";
 import "./staking/METHStaking.sol";
 import "./verifiers/Groth16Verifier.sol";
 import "./verifiers/WorkProofRegistry.sol";
+import "./compliance/ComplianceEngine.sol";
 
 /**
  * @title VitaTokenV2
@@ -125,6 +126,9 @@ contract VitaTokenV2 is EIP712, AccessControl, ReentrancyGuard, Pausable {
     /// @notice ZK work proof registry
     WorkProofRegistry public workProofRegistry;
 
+    /// @notice T-REX Compliance Engine
+    ComplianceEngine public complianceEngine;
+
     /// @notice Protocol treasury
     address public treasury;
 
@@ -229,6 +233,10 @@ contract VitaTokenV2 is EIP712, AccessControl, ReentrancyGuard, Pausable {
         if (_workProofRegistry != address(0)) {
             workProofRegistry = WorkProofRegistry(_workProofRegistry);
         }
+    }
+
+    function setComplianceEngine(address _engine) external onlyRole(ADMIN_ROLE) {
+        complianceEngine = ComplianceEngine(_engine);
     }
 
     // ============================================================================
@@ -602,8 +610,15 @@ contract VitaTokenV2 is EIP712, AccessControl, ReentrancyGuard, Pausable {
         emit Transfer(from, to, amount);
     }
 
-    function _beforeTokenTransfer(address from, address to, uint256) internal view {
+    function _beforeTokenTransfer(address from, address to, uint256 amount) internal view {
         if (from == address(0) || to == address(0)) return;
+
+        // T-REX Compliance Check
+        if (address(complianceEngine) != address(0)) {
+            // Reverts if non-compliant
+            complianceEngine.checkCompliance(from, to, amount, balanceOf[to]);
+        }
+
         if (!hasRole(COMPLIANCE_ROLE, to) && !workerProfiles[to].isVerified) {
             revert ReceiverNotVerified();
         }

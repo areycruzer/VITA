@@ -372,7 +372,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 <div align="center">
   
-  **Built with ❤️ for the Mantle Global Hackathon 2024**
+  **Built with ❤️ for the Mantle Global Hackathon 2026**
   
   <sub>Empowering the future of human capital</sub>
   
