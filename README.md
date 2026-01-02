@@ -370,15 +370,6 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 ---
 
-## 🔗 Links
-
-- **Website:** [vita-protocol.xyz](https://vita-protocol.xyz)
-- **Documentation:** [docs.vita-protocol.xyz](https://docs.vita-protocol.xyz)
-- **Twitter:** [@VitaProtocol](https://twitter.com/VitaProtocol)
-- **Discord:** [Join our community](https://discord.gg/vitaprotocol)
-
----
-
 <div align="center">
   
   **Built with ❤️ for the Mantle Global Hackathon 2024**

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ConnectButton } from "../ConnectButton";
+import { Logo } from "../Logo";
 
 export function Navbar() {
     return (
@@ -7,9 +8,7 @@ export function Navbar() {
             <div className="container flex h-16 items-center justify-between px-6">
                 {/* Logo Area */}
                 <Link href="/" className="flex items-center gap-2 group">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/20 border border-primary/50 group-hover:bg-primary/30 transition-colors">
-                        <span className="text-lg font-bold text-primary">V</span>
-                    </div>
+                    <Logo className="h-9 w-9" />
                     <span className="text-xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">VITA</span>
                 </Link>
 

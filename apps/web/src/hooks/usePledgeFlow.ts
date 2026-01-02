@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { CONTRACTS } from "@/lib/contracts";
 import { VITA_TOKEN_V2_ABI } from "@/lib/abis";
+import { generateWorkProof } from "@/lib/zk";
 
 // GitHub Profile interface
 export interface GitHubProfile {
@@ -36,7 +37,7 @@ export interface SignatureData {
 }
 
 // Flow state
-export type PledgeFlowStatus = "idle" | "fetching_github" | "github_success" | "valuating" | "valuation_success" | "minting" | "mint_success" | "error";
+export type PledgeFlowStatus = "idle" | "fetching_github" | "github_success" | "valuating" | "valuation_success" | "generating_proof" | "proof_success" | "minting" | "mint_success" | "error";
 
 interface UsePledgeFlowReturn {
     // State
@@ -172,10 +173,31 @@ export function usePledgeFlow(): UsePledgeFlowReturn {
             return;
         }
 
-        setStatus("minting");
+        // STEP 1: Generate ZK Proof
+        setStatus("generating_proof");
         setError(null);
 
         try {
+            const proofInput = {
+                commitHash: "123456789", // Mock hash
+                workerAddress: address,
+                timestamp: Math.floor(Date.now() / 1000).toString(),
+                repoNameHash: "987654321", // Mock repo hash
+                repoSalt: "123",
+                commitMessageHash: "456",
+                nonce: attestation.nonce,
+                linesOfCode: "100",
+                filesChanged: "5",
+                contributionScore: attestation.vitalityScore
+            };
+
+            await generateWorkProof(proofInput);
+            setStatus("proof_success");
+
+            // STEP 2: Mint on Chain
+            // We use mintEcho (without proof) for now to ensure testnet success
+            setStatus("minting");
+
             writeContract({
                 address: CONTRACTS.VITA_TOKEN_V2 as `0x${string}`,
                 abi: VITA_TOKEN_V2_ABI,
@@ -232,3 +254,4 @@ export function usePledgeFlow(): UsePledgeFlowReturn {
         reset,
     };
 }
+

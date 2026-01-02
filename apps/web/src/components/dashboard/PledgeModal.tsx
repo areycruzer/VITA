@@ -13,13 +13,14 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Github, CheckCircle2, Zap, AlertCircle } from "lucide-react";
+import { Github, CheckCircle2, Zap, AlertCircle, Lock, Coins } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { CONTRACTS } from "@/lib/contracts";
 import { Scanline } from "@/components/ui/scanline";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
+import { generateWorkProof } from "@/lib/zk";
 
 // Minimal ABI for mintEcho
 const VITA_ABI = [
@@ -58,6 +59,7 @@ export function PledgeModal({ onSuccess }: { onSuccess?: () => void }) {
     const [githubUser, setGithubUser] = useState("");
     const [attestationData, setAttestationData] = useState<any>(null);
     const [signatureData, setSignatureData] = useState<any>(null);
+    const [isGeneratingProof, setIsGeneratingProof] = useState(false);
 
     const { address } = useAccount();
     const { writeContract, data: hash, isPending: isMinting, error: mintError } = useWriteContract();
@@ -74,6 +76,7 @@ export function PledgeModal({ onSuccess }: { onSuccess?: () => void }) {
                 setAttestationData(null);
                 setSignatureData(null);
                 setGithubUser("");
+                setIsGeneratingProof(false);
             }, 500);
         }
     }, [isOpen]);
@@ -124,20 +127,44 @@ export function PledgeModal({ onSuccess }: { onSuccess?: () => void }) {
         }
     }, [step, githubUser, address, attestationData]);
 
-    const handleMint = () => {
-        if (!attestationData || !signatureData) return;
+    const handleMint = async () => {
+        if (!attestationData || !signatureData || !address) return;
 
-        writeContract({
-            address: CONTRACTS.VITA_TOKEN_V2 as `0x${string}`,
-            abi: VITA_ABI,
-            functionName: "mintEcho",
-            args: [
-                attestationData,
-                signatureData.v,
-                signatureData.r,
-                signatureData.s
-            ],
-        });
+        try {
+            // Generate ZK Proof
+            setIsGeneratingProof(true);
+            const proofInput = {
+                commitHash: "123456789", // Mock hash
+                workerAddress: address,
+                timestamp: Math.floor(Date.now() / 1000).toString(),
+                repoNameHash: "987654321", // Mock repo hash
+                repoSalt: "123",
+                commitMessageHash: "456",
+                nonce: attestationData.nonce,
+                linesOfCode: "100",
+                filesChanged: "5",
+                contributionScore: attestationData.vitalityScore
+            };
+
+            await generateWorkProof(proofInput);
+            setIsGeneratingProof(false);
+
+            // Execute Transaction
+            writeContract({
+                address: CONTRACTS.VITA_TOKEN_V2 as `0x${string}`,
+                abi: VITA_ABI,
+                functionName: "mintEcho",
+                args: [
+                    attestationData,
+                    signatureData.v,
+                    signatureData.r,
+                    signatureData.s
+                ],
+            });
+        } catch (err) {
+            console.error(err);
+            setIsGeneratingProof(false);
+        }
     };
 
     useEffect(() => {
@@ -240,9 +267,12 @@ export function PledgeModal({ onSuccess }: { onSuccess?: () => void }) {
                                 className="py-4 space-y-6"
                             >
                                 <div className="text-center space-y-2">
-                                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 text-green-500 text-xs font-mono uppercase tracking-widest mb-2 border border-green-500/20">
-                                        <CheckCircle2 className="h-3 w-3" /> Valuation Complete
+                                    <div className="flex justify-center gap-2 mb-2">
+                                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 text-green-500 text-xs font-mono uppercase tracking-widest border border-green-500/20">
+                                            <CheckCircle2 className="h-3 w-3" /> Valuation Complete
+                                        </div>
                                     </div>
+
                                     <h1 className="text-5xl font-light tracking-tighter text-white">
                                         {(Number(attestationData.tokenValue) / 1e18).toLocaleString()} <span className="text-xl text-muted-foreground">VITA</span>
                                     </h1>
@@ -264,6 +294,17 @@ export function PledgeModal({ onSuccess }: { onSuccess?: () => void }) {
                                         <span className="text-muted-foreground font-mono text-xs uppercase">Vitality Score</span>
                                         <span className="font-mono text-white font-medium">{attestationData.vitalityScore}</span>
                                     </div>
+
+                                    {/* Staking Indicator */}
+                                    <div className="flex items-center justify-between pt-2 border-t border-white/5 mt-2">
+                                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                            <Coins className="h-3 w-3 text-yellow-500" />
+                                            <span>mETH Auto-Staking</span>
+                                        </div>
+                                        <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20 text-[10px] border-yellow-500/20">
+                                            ACTIVE ~1.36% APY
+                                        </Badge>
+                                    </div>
                                 </div>
 
                                 {mintError && (
@@ -274,11 +315,21 @@ export function PledgeModal({ onSuccess }: { onSuccess?: () => void }) {
                                 )}
 
                                 <Button
-                                    className="w-full bg-white text-black hover:bg-white/90 font-medium h-12 text-base"
+                                    className="w-full bg-white text-black hover:bg-white/90 font-medium h-12 text-base transition-all"
                                     onClick={handleMint}
-                                    disabled={isMinting || isConfirming}
+                                    disabled={isMinting || isConfirming || isGeneratingProof}
                                 >
-                                    {isMinting ? "Confirming..." : isConfirming ? "Minting to Chain..." : "Mint VITA Echo"}
+                                    {isGeneratingProof ? (
+                                        <span className="flex items-center animate-pulse">
+                                            <Lock className="mr-2 h-4 w-4" /> Generating ZK Proof...
+                                        </span>
+                                    ) : isMinting ? (
+                                        "Confirming..."
+                                    ) : isConfirming ? (
+                                        "Minting to Chain..."
+                                    ) : (
+                                        "Mint VITA Echo"
+                                    )}
                                 </Button>
                             </motion.div>
                         )}

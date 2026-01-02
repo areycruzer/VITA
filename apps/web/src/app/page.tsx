@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ConnectButton } from "../components/ConnectButton";
+import { Logo } from "../components/Logo";
 import { ArrowUpRight, Github, Sparkles, Activity, Shield, Layers, ChevronRight } from "lucide-react";
 
 export default function Home() {
@@ -19,9 +20,7 @@ export default function Home() {
           <nav className="flex items-center justify-between">
             <div className="flex items-center gap-12">
               <Link href="/" className="flex items-center gap-3 group">
-                <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center rotate-[-6deg] group-hover:rotate-0 transition-transform">
-                  <span className="text-lg font-black text-white">V</span>
-                </div>
+                <Logo className="w-9 h-9" />
                 <span className="text-xl font-semibold tracking-tight">VITA</span>
               </Link>
               <div className="hidden md:flex items-center gap-8 text-sm text-white/60">
@@ -32,10 +31,6 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-xs font-medium text-emerald-400">Mantle Sepolia</span>
-              </div>
               <ConnectButton />
             </div>
           </nav>
@@ -237,9 +232,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400/20 to-blue-600/20 flex items-center justify-center">
-                <span className="font-bold text-sm text-cyan-400">V</span>
-              </div>
+              <Logo className="w-8 h-8" />
               <span className="font-semibold">VITA Protocol</span>
               <span className="text-white/30 text-sm ml-4">Built on Mantle</span>
             </div>
