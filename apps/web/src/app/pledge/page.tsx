@@ -51,6 +51,20 @@ export default function PledgePage() {
   const [valuationComplete, setValuationComplete] = useState(false);
   const [githubUsername, setGithubUsername] = useState("");
   const [githubProfile, setGithubProfile] = useState<GitHubProfile | null>(null);
+  const [valuationData, setValuationData] = useState<{
+    attestation: {
+      worker: string;
+      githubUsername: string;
+      vitalityScore: string;
+      reliabilityScore: string;
+      pledgedHours: string;
+      skillCategory: number;
+      tokenValue: string;
+      validUntil: string;
+      nonce: string;
+    };
+    signature: { r: string; s: string; v: number };
+  } | null>(null);
 
   // Wagmi hooks
   const { address, isConnected } = useAccount();
@@ -175,35 +189,84 @@ export default function PledgePage() {
     setCurrentStep(3);
   };
 
-  // Handle AI valuation
+  // Handle AI valuation - calls REAL API
   const handleGetValuation = async () => {
+    if (!githubProfile || !address) return;
+
     updateStepStatus(4, "loading");
     setIsProcessing(true);
 
-    // Simulate AI valuation process (in production, this calls the AI oracle)
-    await new Promise((r) => setTimeout(r, 2000));
+    try {
+      const response = await fetch("/api/valuation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          githubUsername: githubProfile.username,
+          workerAddress: address,
+          pledgedHours: pledgeHours,
+          skillCategory: skillCategoryId,
+        }),
+      });
 
-    setValuationComplete(true);
-    updateStepStatus(4, "complete");
-    setCurrentStep(4);
-    setIsProcessing(false);
+      if (!response.ok) throw new Error("Valuation failed");
+
+      const data = await response.json();
+      if (!data.success) throw new Error(data.error || "Valuation error");
+
+      // Store attestation data for minting
+      setValuationData(data.data);
+      setVitalityScore(parseInt(data.data.attestation.vitalityScore) / 10); // Convert 0-1000 to 0-100
+      setValuationComplete(true);
+      updateStepStatus(4, "complete");
+      setCurrentStep(4);
+    } catch (err) {
+      console.error("Valuation error:", err);
+      updateStepStatus(4, "error");
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
-  // Handle minting with real contract call
+  // Handle minting with REAL contract call
   const handleMint = async () => {
-    if (!address) return;
+    if (!address || !valuationData) return;
 
     updateStepStatus(5, "loading");
     setIsProcessing(true);
 
-    // In production, this would call the actual mint function with a signed attestation
-    // For demo, we simulate the transaction
-    await new Promise((r) => setTimeout(r, 2000));
+    try {
+      const { attestation, signature } = valuationData;
 
-    // Mint complete is tracked via useMintEcho hook
-    updateStepStatus(5, "complete");
-    setIsProcessing(false);
+      // Call the real mint function from useMintEcho hook
+      // Parameters match the hook: worker, skillCategory, pledgedHours, vitalityScore, reliabilityScore, mintAmount, deadline, v, r, s
+      mint({
+        worker: attestation.worker as `0x${string}`,
+        skillCategory: attestation.skillCategory,
+        pledgedHours: parseInt(attestation.pledgedHours),
+        vitalityScore: parseInt(attestation.vitalityScore),
+        reliabilityScore: parseInt(attestation.reliabilityScore),
+        mintAmount: BigInt(attestation.tokenValue),
+        deadline: parseInt(attestation.validUntil),
+        v: signature.v,
+        r: signature.r as `0x${string}`,
+        s: signature.s as `0x${string}`,
+      });
+
+      // Status will be updated when tx confirms via the hook
+    } catch (err) {
+      console.error("Mint error:", err);
+      updateStepStatus(5, "error");
+      setIsProcessing(false);
+    }
   };
+
+  // Watch for mint completion
+  useEffect(() => {
+    if (mintComplete && isProcessing) {
+      updateStepStatus(5, "complete");
+      setIsProcessing(false);
+    }
+  }, [mintComplete, isProcessing]);
 
   // Use contract hooks for real-time valuation
   const selectedRate = SKILL_RATES[skillCategoryId] || 100;
