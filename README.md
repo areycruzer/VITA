@@ -1,18 +1,22 @@
-<div align="center">
-  <img src="docs/assets/vita-logo.svg" alt="VITA Protocol Logo" width="200" />
-  
-  # VITA Protocol
-  
-  ### The Human Capital Stock Exchange on Mantle
-  
-  [![Mantle](https://img.shields.io/badge/Built%20on-Mantle-black?style=for-the-badge&logo=ethereum)](https://www.mantle.xyz/)
-  [![ERC-3643](https://img.shields.io/badge/Standard-ERC--3643-blue?style=for-the-badge)](https://eips.ethereum.org/EIPS/eip-3643)
-  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-  
-  **Tokenize your productivity. Monetize your potential.**
-  
-  [Demo](https://vita-protocol.vercel.app) · [Documentation](./docs) · [Contract Addresses](#-deployed-contracts)
-</div>
+# VITA Protocol
+
+### Decentralized Credit Score for the AI Age
+
+The "Human Capital Stock Exchange" powered by Mantle
+
+[![Mantle](https://img.shields.io/badge/Built%20on-Mantle-black?style=for-the-badge&logo=ethereum)](https://www.mantle.xyz/)
+[![Mantle DA](https://img.shields.io/badge/Powered%20By-Mantle%20DA-green?style=for-the-badge)](https://www.mantle.xyz/)
+
+---
+
+## ⚡ The Mantle Power: 100x Cheaper Proofs with EigenDA
+
+VITA leverages **Mantle DA (Data Availability)** to store millions of worker productivity proofs at **1/100th the cost** of Ethereum L1. By offloading data to EigenDA, we make it economically viable to mint a ZK-proof for every single commit.
+
+| Operation | Ethereum L1 | Mantle L2 + DA | Savings |
+|-----------|-------------|----------------|---------|
+| ZK Proof Storage | ~$20.00 | ~$0.005 | **99.97%** |
+| Identity Update | ~$15.00 | ~$0.01 | **99.93%** |
 
 ---
 
