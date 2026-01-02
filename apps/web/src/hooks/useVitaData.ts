@@ -1,6 +1,5 @@
 import { useAccount, useReadContract } from "wagmi";
-import { VITA_TOKEN_V2_ADDRESS } from "@/lib/contracts"; // Assume Abis are exported or we inline ABI
-// If ABI is not in lib/contracts, we might need to import from JSON or define minimal ABI here.
+import { CONTRACTS } from "@/lib/contracts";
 
 // Minimal ABI for data we need
 const vitaAbi = [
@@ -46,7 +45,7 @@ export function useVitaData() {
     const { address } = useAccount();
 
     const { data: balance, refetch: refetchBalance } = useReadContract({
-        address: VITA_TOKEN_V2_ADDRESS as `0x${string}`,
+        address: CONTRACTS.VITA_TOKEN_V2 as `0x${string}`,
         abi: vitaAbi,
         functionName: "balanceOf",
         args: address ? [address] : undefined,
@@ -56,7 +55,7 @@ export function useVitaData() {
     });
 
     const { data: profile, refetch: refetchProfile } = useReadContract({
-        address: VITA_TOKEN_V2_ADDRESS as `0x${string}`,
+        address: CONTRACTS.VITA_TOKEN_V2 as `0x${string}`,
         abi: vitaAbi,
         functionName: "getWorkerProfile",
         args: address ? [address] : undefined,
