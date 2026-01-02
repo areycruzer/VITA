@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ValuationChart } from "@/components/dashboard/ValuationChart";
 import { PledgeTable } from "@/components/dashboard/PledgeTable";
@@ -9,8 +11,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useVitaData } from "@/hooks/useVitaData";
 
 export default function DashboardPage() {
+  const { balance } = useVitaData();
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -33,9 +38,9 @@ export default function DashboardPage() {
             <Activity className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-foreground">125,430</div>
+            <div className="text-3xl font-bold text-foreground">{balance.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground mt-1">
-              +20.1% from last month
+              $VITA Balance
             </p>
           </CardContent>
         </Card>
